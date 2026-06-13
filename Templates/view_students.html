@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Manage Students Records</title>
+        <style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+.header{
+    display:flex;
+    align-items:center;
+    width;100%;
+    margin-bottom:30px;
+}
+.header h1{
+    color:white;
+    font-size:40px;
+    margin:0;
+}
+.reset-btn{
+    margin-left:auto;
+    background:white;
+    color:red;
+    text-decoration:none;
+    padding:12px 25px;
+    border-radius:30px;
+    font-weight:bold;
+    transition:0.3s;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+.reset-btn:hover{
+    background:#2196f3;
+    color:white;
+    transform:translateY(-2px);
+}
+.search-btn{
+    margin-left:auto;
+    background:white;
+    color:#2196f3;
+    text-decoration:none;
+    padding:12px 25px;
+    border-radius:30px;
+    font-weight:bold;
+    transition:0.3s;
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+.search-btn:hover{
+    background:#2196f3;
+    color:white;
+    transform:translateY(-2px);
+}
+
+body{
+    background: linear-gradient(135deg,#4facfe,#00f2fe);
+    min-height:100vh;
+    padding:40px;
+}
+
+h1{
+    text-align:center;
+    color:white;
+    margin-bottom:25px;
+    font-size:40px;
+}
+.search-link{
+    display:inline-block;
+    background:white;
+    color:#2196f3;
+    padding:10px 20px;
+    text-decoration:none;
+    border-radius:8px;
+    font-weight:bold;
+    margin-bottom:20px;
+}
+.search-link:hover{
+    background:#2196f3;
+    color:white;
+}
+.table-container{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.2);
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#2196f3;
+    color:white;
+    padding:15px;
+    text-align:center;
+}
+td{
+    padding:12px;
+    text-align:center; 
+}
+
+tr:nth-child(odd){
+background:#2196f3;}
+
+tr:hover{
+    background:#e3f2fd;
+}
+.update-btn{
+    background:#28a745;
+    color:white;
+    padding:8px 15px;
+    text-decoration:none;
+    border-radius:5px;
+}
+.update-btn:hover{
+    background:#218838;
+}
+.delete-btn{
+    background:#dc3545;
+    color:white;
+    padding:8px 15px;
+    text-decoration:none;
+    border-radius:5px;
+}
+.delete-btn:hover{
+    background:#c82333;
+}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+        <div class="header">
+    <h1>Student Records</h1><br> 
+    <a href="/search_student" class="search-btn">
+        🔍 Search Student
+    </a><br/><br/>
+    <a href="/reset" class="reset-btn">
+            Reset records</a>
+        </div>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Registration Number</th>
+                <th>Department</th>
+                <th>Year</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Edit</th>
+                <th>Actions</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ student[1]}}</td>
+                <td>{{ student[2]}}</td>
+                <td>{{ student[3]}}</td>
+                <td>{{ student[4]}}</td>
+                <td>{{ student[5]}}</td>
+                <td>{{student[6]}}</td>
+                <td>
+                    <a href="/update_student/{{ student[0] }}" class="update-btn">Update</a>
+                </td>
+                <td>
+    <a href="{{ url_for('delete_student', id=student[0]) }}"
+       class="delete-btn"
+       onclick="return confirm('Are you sure you want to delete this record?')">
+       Delete
+    </a>
+</td>
+            </tr>
+            {% endfor %}
+        </table>
+        </div>
+        
+    </body>
+</html>

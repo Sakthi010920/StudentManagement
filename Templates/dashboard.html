@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+        body{
+            background:linear-gradient(135deg,#4facfe,#00f2fe);
+            min-height:100vh;
+            padding:30px;
+        }
+        .dashboard-container{
+            max-width:900px;
+            margin:auto;
+        }
+        .header{
+            text-align:center;
+            color:white;
+            margin-bottom:25px;
+        }
+        .header h1{
+            font-size:40px;
+        }
+        .header p{
+            font-size:18px;
+            margin-top:10px;
+        }
+        .profile-card{
+            background:white;
+            border-radius:15px;
+            padding:25px;
+            text-align:center;
+            box-shadow:0 5px 15px rgba(0,0,0,0.15);
+            margin-bottom:25px;
+        }
+        .avatar{
+            width:90px;
+            height:90px;
+            background:#3498db;
+            color:white;
+            border-radius:50%;
+            margin:auto;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:36px;
+            font-weight:bold;
+        }
+        .profile-card h2{
+            margin-top:15px;
+            color:#2c3e50;
+        }
+        .profile-card p{
+            margin:10px 0;
+            color:#555;
+            font-size:16px;
+        }
+        .stats-card{
+            background:white;
+            padding:25px;
+            border-radius:15px;
+            text-align:center;
+            box-shadow:0 5px 15px rgba(0,0,0,0.15);
+            margin-bottom:25px;
+        }
+        .stats-card h3{
+            color:#2c3e50;
+            margin-bottom:10px;
+        }
+        .student-count{
+            font-size:40px;
+            color:#27ae60;
+            font-weight:bold;
+        }
+        .actions{
+            background:white;
+            padding:25px;
+            border-radius:15px;
+            box-shadow:0 5px 15px rgba(0,0,0,0.15);
+        }
+        .actions h3{
+            text-align:center;
+            color:#2c3e50;
+            margin-bottom:20px;
+        }
+        .actions a{
+            display:block;
+            text-decoration:none;
+            background:#187d25;
+            color:white;
+            padding:14px;
+            margin:12px 0;
+            border-radius:8px;
+            text-align:center;
+            font-size:18px;
+            transition:0.3s;
+        }
+       .actions button{
+    display:block;
+    width:100%;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    background:#e74c3c;
+    color:white;
+    padding:14px;
+    margin:12px 0;
+    border-radius:8px;
+    text-align:center;
+    font-size:18px;
+    transition:0.3s;
+    font-family:'Segoe UI',sans-serif;
+}
+.actions button:hover{
+    background:#c0392b;
+    transform:scale(1.03);
+}
+        .actions a:hover{
+            background:#2980b9;
+            transform:scale(1.03);
+        }
+        .logout{
+            background:#e74c3c !important;
+        }
+        .logout:hover{
+            background:#c0392b !important;
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div class="header">
+        <h1>🎓 User Dashboard</h1>
+        <p>Welcome to Student Record Management System</p>
+    </div>
+    <div class="profile-card">
+        <div class="avatar">         
+            {{ user[0][0].upper() }}
+        </div>
+        <h2>{{ user[0] }}</h2>
+        <p><strong>Email:</strong> {{ user[1] }}</p>
+        <p><strong>Phone:</strong> {{ user[2] }}</p>
+        <p><strong>Status:</strong> 🟢 Active</p>
+    </div>
+    <div class="stats-card">
+        <h3>Total Students Managed</h3>
+        <div class="student-count">
+            {{ total_students }}
+        </div>
+    </div>
+    <div class="actions">
+        <h3>Quick Actions</h3>
+        <a href="/add_student">➕ Add Student</a>
+        <a href="/view_students">📋 Manage Students</a>
+        <a href="/search_student">🔍 Search Student</a>
+        <a href="/logout" class="logout">🚪 Logout</a>
+<form action="/delete_account" method="POST" style="display:inline;">
+    <button type="submit" class="logout"
+        onclick="return confirm('Are you sure you want to delete your account? This cannot be undone!')">
+        🗑️ Delete My Account
+    </button>
+</body>
+</html>
