@@ -118,7 +118,7 @@ def update_student(id):
         year = request.form['year']
         email = request.form['email']
         phone = request.form['phone']
-        cursor.execute('''UPDATE studentSET name=?,reg_number=?,department=?,year=?,email=?,phone=? WHERE id=? AND user_id=?''', (name,reg_number,department,year,email,phone,id,session['user_id']))
+        cursor.execute('''UPDATE student SET name=?,reg_number=?,department=?,year=?,email=?,phone=? WHERE id=? AND user_id=?''', (name,reg_number,department,year,email,phone,id,session['user_id']))
         conn.commit()
         conn.close()
         return redirect(url_for('view_students'))
