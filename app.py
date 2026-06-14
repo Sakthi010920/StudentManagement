@@ -129,6 +129,9 @@ def update_student(id):
 
 @app.route('/search_student', methods=['GET', 'POST'])
 def search_student():
+    
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
     student = []
     message =""
     if request.method == 'POST':
