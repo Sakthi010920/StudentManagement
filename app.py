@@ -160,6 +160,7 @@ def delete_account():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("DELETE FROM users WHERE id=?", (user_id,))
+    cursor.execute("DELETE FROM users WHERE id=?", (user_id,))
     conn.commit()
     conn.close()
     session.clear()
