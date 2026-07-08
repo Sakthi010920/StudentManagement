@@ -3,6 +3,7 @@ from flask import Flask, config, render_template, request, redirect,flash,url_fo
 import sqlite3,os
 print("DATABASE PATH:",os.path.abspath("database.db"))
 from datetime import datetime
+from zoneinfo import ZoneInfo
 app = Flask(__name__)
 app.secret_key = "student_management_secret"
 
@@ -1179,7 +1180,7 @@ def mark_attendance(student_id, status):
             "message": "Invalid hour."
         })
 
-    now = datetime.now()
+    now = datetime.now(ZoneInfo("Asia/Kolkata"))
 
     today = now.strftime("%Y-%m-%d")
     attendance_time = now.strftime("%Y-%m-%d %H:%M:%S")
