@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Create Assignment</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+    radial-gradient(circle at top left,#1e40af,transparent 35%),
+    radial-gradient(circle at bottom right,#0284c7,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a);
+
+    padding:40px;
+
+}
+
+.container{
+
+    width:700px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:25px;
+
+    padding:40px;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.45);
+
+}
+
+h1{
+
+    text-align:center;
+
+    color:#38bdf8;
+
+    margin-bottom:30px;
+
+    font-size:34px;
+
+}
+
+label{
+
+    display:block;
+
+    color:white;
+
+    margin-bottom:8px;
+
+    margin-top:18px;
+
+    font-weight:600;
+
+}
+
+input,
+textarea{
+
+    width:100%;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:12px;
+
+    outline:none;
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+    font-size:15px;
+
+}
+
+input::placeholder,
+textarea::placeholder{
+
+    color:#d1d5db;
+
+}
+
+textarea{
+
+    resize:vertical;
+
+    min-height:120px;
+
+}
+
+input[type=file]{
+
+    padding:12px;
+
+    color:white;
+
+}
+
+.actions{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:35px;
+
+}
+
+button{
+
+    padding:14px 30px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    font-weight:bold;
+
+    color:white;
+
+    background:linear-gradient(135deg,#2563eb,#0284c7);
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 25px rgba(37,99,235,.4);
+
+}
+
+.back{
+
+    text-decoration:none;
+
+    padding:14px 28px;
+
+    border-radius:12px;
+
+    color:white;
+
+    background:#334155;
+
+    transition:.3s;
+
+}
+
+.back:hover{
+
+    background:#1e293b;
+
+}
+
+.flash{
+
+    background:#16a34a;
+
+    color:white;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+    margin-bottom:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📝 Create Assignment</h1>
+
+{% with messages=get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<div class="flash">
+{{ message }}
+</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+<form method="POST" enctype="multipart/form-data">
+
+<label>Assignment Title</label>
+
+<input
+type="text"
+name="title"
+placeholder="Enter Assignment Title"
+required>
+
+<label>Subject</label>
+
+<input
+type="text"
+name="subject"
+placeholder="Enter Subject"
+required>
+
+<label>Description</label>
+
+<textarea
+name="description"
+placeholder="Enter Assignment Description"></textarea>
+
+<label>Due Date</label>
+
+<input
+type="date"
+name="due_date"
+required>
+
+<label>Upload Assignment (PDF / DOC)</label>
+
+<input
+type="file"
+name="file">
+
+<div class="actions">
+
+<a href="/manage_assignments" class="back">
+⬅ Back
+</a>
+
+<button type="submit">
+📤 Create Assignment
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</body>
+</html>

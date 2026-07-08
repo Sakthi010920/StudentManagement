@@ -1,38 +1,401 @@
 <!DOCTYPE html>
-<html>
-    <head>
-    <title>Student Management System</title>
-     <style>
-body {
-    font-family: 'Segoe UI', sans-serif;
-    height: 95vh;
-    background: linear-gradient(135deg, #637ffc, #b57af1);
-    font-size: 32px;
-    color: #333;
-    margin-top: 50px;
-    text-align: center;
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Management System</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
 }
-button{
-    padding: 12px 20px;
-    margin: 10px;
-    background: #acccef;
-    color: white;
-    border: none;
-    border-radius: 30px;
-       font-size: 35px;
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow:hidden;
+
+    background:linear-gradient(135deg,#020617,#0f172a,#1e3a8a,#2563eb);
+
+    position:relative;
+
 }
-button:hover {
-    background: #2196f3;
+
+/* Animated Background */
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    background:#2563eb;
+
+    border-radius:50%;
+
+    filter:blur(170px);
+
+    top:-120px;
+    left:-120px;
+
+    opacity:.35;
+
+    animation:float1 8s ease-in-out infinite;
+
 }
+
+body::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:380px;
+    height:380px;
+
+    background:#60a5fa;
+
+    border-radius:50%;
+
+    filter:blur(160px);
+
+    bottom:-100px;
+    right:-120px;
+
+    opacity:.30;
+
+    animation:float2 10s ease-in-out infinite;
+
+}
+
+@keyframes float1{
+
+0%,100%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(40px);
+}
+
+}
+
+@keyframes float2{
+
+0%,100%{
+transform:translateY(0px);
+}
+
+50%{
+transform:translateY(-40px);
+}
+
+}
+
+/* Main Card */
+
+.container{
+
+    position:relative;
+
+    z-index:10;
+
+    width:90%;
+    max-width:800px;
+
+    padding:60px 50px;
+
+    border-radius:28px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 25px 60px rgba(0,0,0,.45);
+
+    text-align:center;
+
+}
+
+/* Logo */
+
+.logo{
+
+    font-size:70px;
+
+    margin-bottom:15px;
+
+}
+
+/* Heading */
+
+h1{
+
+    color:white;
+
+    font-size:42px;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+
+.subtitle{
+
+    color:#dbeafe;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    margin-bottom:40px;
+
+}
+
+/* Buttons */
+
+.buttons{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:25px;
+
+    flex-wrap:wrap;
+
+}
+
+.btn{
+
+    text-decoration:none;
+
+    min-width:190px;
+
+    padding:16px 28px;
+
+    border-radius:14px;
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    transition:.35s;
+
+    display:inline-block;
+
+}
+
+.register{
+
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+
+}
+
+.login{
+
+    background:linear-gradient(135deg,#10b981,#059669);
+
+}
+
+.btn:hover{
+
+    transform:translateY(-6px) scale(1.04);
+
+    box-shadow:0 12px 25px rgba(0,0,0,.35);
+
+}
+
+/* Features */
+
+.features{
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:20px;
+
+    margin-top:50px;
+
+}
+
+.feature{
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:15px;
+
+    padding:18px;
+
+    color:white;
+
+}
+
+.feature h3{
+
+    margin:12px 0;
+
+}
+
+.feature p{
+
+    color:#dbeafe;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+}
+
+/* Footer */
+
+.footer{
+
+    margin-top:35px;
+
+    color:#94a3b8;
+
+    font-size:14px;
+
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.container{
+
+padding:40px 25px;
+
+}
+
+h1{
+
+font-size:30px;
+
+}
+
+.features{
+
+grid-template-columns:1fr;
+
+}
+
+.logo{
+
+font-size:55px;
+
+}
+
+}
+
 </style>
-    </head>
-    <body> 
-        <h1>Welcome to the Student Record Portal System</h1>
-        <a href="/register">
-            <button>Register</button>
-        </a>
-        <a href="/login">
-            <button>Login</button>
-        </a>
-    </body>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+🎓
+</div>
+
+<h1>
+Student Record Portal System
+</h1>
+
+<p class="subtitle">
+
+Manage student information, attendance, academic records, semester results, and administrative tasks through one secure platform.
+
+</p>
+
+<div class="buttons">
+
+<a href="/register" class="btn register">
+
+📝 Register
+
+</a>
+
+<a href="/login" class="btn login">
+
+🔐 Login
+
+</a>
+
+</div>
+
+<div class="features">
+
+<div class="feature">
+
+<h3>👨‍🎓 Student Records</h3>
+
+<p>
+
+Manage complete student profiles securely.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<h3>📊 Attendance</h3>
+
+<p>
+
+Track attendance and generate summaries instantly.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<h3>🎓 Academics</h3>
+
+<p>
+
+Manage internal marks, semester results, and SGPA.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="footer">
+
+Student Management System • Premium ERP Dashboard © 2026
+
+</div>
+
+</div>
+
+</body>
+
 </html>

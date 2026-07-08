@@ -1,77 +1,363 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Login</title>
-        <style>
-  body {
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Poppins",sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:linear-gradient(135deg,#020617,#0f172a,#1e3a8a,#2563eb);
+
+    overflow:hidden;
+
+}
+
+/* Background Glow */
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:420px;
+    height:420px;
+
+    background:#3b82f6;
+
+    border-radius:50%;
+
+    filter:blur(170px);
+
+    top:-120px;
+    left:-100px;
+
+    opacity:.45;
+
+}
+
+body::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:350px;
+    height:350px;
+
+    background:#60a5fa;
+
+    border-radius:50%;
+
+    filter:blur(160px);
+
+    bottom:-120px;
+    right:-100px;
+
+    opacity:.35;
+
+}
+
+/* Login Card */
+
+.container{
+
+    position:relative;
+    z-index:10;
+
+    width:420px;
+
+    padding:40px;
+
+    border-radius:22px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:0 20px 45px rgba(0,0,0,.45);
+
+}
+
+/* Heading */
+
+.container h1{
+
+    color:white;
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+    font-size:34px;
+
+    font-weight:700;
+
+}
+
+/* Labels */
+
+label{
+
+    display:block;
+
+    color:#dbeafe;
+
+    margin-bottom:8px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+/* Input */
+
+input{
+
+    width:100%;
+
+    padding:14px 16px;
+
+    margin-bottom:20px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.12);
+
+    border:1px solid rgba(255,255,255,.18);
+
+    color:white;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+input::placeholder{
+
+    color:#cbd5e1;
+
+}
+
+input:focus{
+
+    border-color:#60a5fa;
+
+    box-shadow:0 0 12px rgba(96,165,250,.45);
+
+}
+
+/* Login Button */
+
+button{
+
+    width:100%;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    color:white;
+
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+
+}
+
+/* Messages */
+
+.success{
+
+    background:#16a34a;
+
+    color:white;
+
+    padding:14px;
+
+    margin-bottom:20px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+}
+
+.error{
+
+    background:#dc2626;
+
+    color:white;
+
+    padding:14px;
+
+    margin-bottom:20px;
+
+    border-radius:10px;
+
+    text-align:center;
+
+}
+
+/* Register */
+
+.register{
+
     margin-top:25px;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #4facfe, #f68b49);
-    min-height: 95vh;
-    margin-left:500px;
+
+    text-align:center;
+
+    color:#dbeafe;
+
+    font-size:15px;
+
 }
-.container {
-    width: 450px;
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+
+.register a{
+
+    color:#60a5fa;
+
+    text-decoration:none;
+
+    font-weight:600;
+
 }
-h4{
-    margin-left:100px;
-    color:black;
-    margin-top:65px;
+
+.register a:hover{
+
+    color:white;
+
+    text-decoration:underline;
+
 }
-.container h1 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
+
+/* Footer */
+
+.footer{
+
+    margin-top:25px;
+
+    text-align:center;
+
+    color:#94a3b8;
+
+    font-size:13px;
+
 }
-input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-sizing: border-box;
+
+@media(max-width:500px){
+
+.container{
+
+    width:90%;
+
+    padding:30px;
+
 }
-button {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: #4facfe;
-    color: white;
-    font-size: 16px;
+
+.container h1{
+
+    font-size:28px;
+
 }
-.error {
-    background: #f8d7da;
-    color: #721c24;
-    border: 1px solid #dc3545;
-    padding: 15px;
-    margin-bottom: 25px;
-    border-radius: 8px;
-    text-align: center;
-    font-weight: bold;
+
 }
-        </style> 
-    </head>
-    <body>
-        <div class="container">
-        <h1> Login</h1>
-          {% if message %}
-    <div class="message {{ message_type }}">
-        {{ message }}
-    </div>
-    {% endif %}      
-        <form method="POST">
-            <label>Email:</label><br>
-            <input type="email" name="email" required><br><br>
-            <label>Password:</label><br>
-            <input type="password" name="password" required ><br><br>
-            <button type="submit">Login</button>
-        </form>
-        </div>
-        <h4>Don't have an account? <a href="/register">Register here</a></h4>
-    </body>
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔐 Login</h1>
+
+{% if message %}
+<div class="{{ message_type }}">
+    {{ message }}
+</div>
+{% endif %}
+
+<form method="POST">
+
+<label>Email Address</label>
+
+<input
+type="email"
+name="email"
+placeholder="Enter your email"
+required>
+
+<label>Password</label>
+
+<input
+type="password"
+name="password"
+placeholder="Enter your password"
+required>
+
+<button type="submit">
+🚀 Login
+</button>
+
+</form>
+
+<div class="register">
+
+Don't have an account?
+
+<a href="/register">
+Register here
+</a>
+
+</div>
+
+</div>
+
+</body>
+
 </html>

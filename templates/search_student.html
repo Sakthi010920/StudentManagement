@@ -1,130 +1,449 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Search Student</title>
-    <style>
-        h1{
-    margin-top:25px;
-    color:white;
-}
-body{
-    text-align:center;
-    background:linear-gradient(135deg, #4facfe, #f68b49);
-}
-form{
-    margin-top:20px;
-}
-input{
-    padding:10px;
-    margin:5px;
-    border:1px solid #ccc;
-    border-radius:5px;
-}
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Search Student</title>
+
+<style>
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: Arial, sans-serif;
+    font-family:"Poppins",sans-serif;
+}
+
+body{
+
+    min-height:100vh;
+
+    padding:40px;
+
+    background:
+    radial-gradient(circle at top left,#2563eb,transparent 35%),
+    radial-gradient(circle at bottom right,#0891b2,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a);
+
+    color:white;
+
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#3b82f6;
+    border-radius:20px;
+}
+
+/* Container */
+
+.container{
+
+    width:95%;
+    max-width:1300px;
+
+    margin:auto;
+
+}
+
+/* Heading */
+
+h1{
+
+    text-align:center;
+
+    font-size:40px;
+
+    color:#38bdf8;
+
+    margin-bottom:35px;
+
+}
+
+/* Search Box */
+
+.search-box{
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:22px;
+
+    padding:30px;
+
+    box-shadow:0 20px 45px rgba(0,0,0,.35);
+
+}
+
+/* Form */
+
+form{
+
+    display:flex;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+}
+
+/* Input */
+
+input{
+
+    flex:1;
+
+    min-width:280px;
+
+    padding:15px 20px;
+
+    border:none;
+
+    outline:none;
+
+    border-radius:12px;
+
+    background:#1e293b;
+
+    color:white;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+input::placeholder{
+
+    color:#cbd5e1;
+
+}
+
+input:focus{
+
+    box-shadow:0 0 12px rgba(59,130,246,.7);
+
+}
+
+/* Search Button */
+
+button{
+
+    padding:15px 32px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+
+    color:white;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:0 12px 25px rgba(37,99,235,.45);
+
+}
+
+/* Message */
+
+.message{
+
+    margin-top:25px;
+
+    text-align:center;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    background:rgba(239,68,68,.15);
+
+    color:#fecaca;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    border:1px solid rgba(239,68,68,.3);
+
+}
+
+/* Table */
+
+.table-box{
+
+    margin-top:35px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:20px;
+
+    overflow:auto;
+
+    box-shadow:0 20px 45px rgba(0,0,0,.35);
+
 }
 
 table{
+
     width:100%;
+
     border-collapse:collapse;
-    margin-top:25px;
-    background:white;
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+
+    min-width:900px;
+
 }
+
 th{
-    background:#2196f3;
+
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+
     color:white;
-    padding:15px;
-    text-align:center;
+
+    padding:18px;
+
     font-size:16px;
+
+    position:sticky;
+
+    top:0;
+
 }
+
 td{
-    padding:12px;
+
+    padding:16px;
+
     text-align:center;
-    border-bottom:1px solid #ddd;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+    color:white;
+
 }
+
+tr{
+
+    transition:.3s;
+
+}
+
 tr:hover{
-    background:#e3f2fd;
+
+    background:rgba(255,255,255,.06);
+
 }
-.error{
-    color:red;
-    font-weight:bold;
-    margin-top:15px;
-}
-.back-btn{
-    display:inline-block;
-    margin-top:20px;
-    padding:12px 20px;
-    background:#28a745;
+
+/* Back Button */
+
+.back{
+
+    display:inline-flex;
+
+    gap:10px;
+    margin-top:25px;
+
+    margin-bottom:30px;
+
     color:white;
+
     text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
+
+    font-weight:600;
+
+    transition:.3s;
+
 }
+
+.back:hover{
+
+    color:#38bdf8;
+
+    transform:translateX(-6px);
+
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+form{
+
+    flex-direction:column;
+
+}
+
+input{
+
+    width:100%;
+
+}
+
 button{
-    padding:12px 25px;
-    background:#2196f3;
-    color:white;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
+
+    width:100%;
+
 }
-button:hover{
-    background:#1976d2;
-    transform:translateY(-2px);
+
+.table-box{
+
+    overflow-x:auto;
+
 }
-.back-btn:hover{
-    background:#218838;
+
+h1{
+
+    font-size:32px;
+
 }
-    </style>
+
+}
+
+@media(max-width:600px){
+
+body{
+
+    padding:20px;
+
+}
+
+.container{
+
+    width:100%;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+.back{
+
+    width:100%;
+
+    text-align:center;
+
+}
+
+}
+</style>
+
 </head>
+
 <body>
-<h1>Search Student Records</h1>
+
+<div class="container">
+
+<h1>🔍 Search Student Records</h1>
+
+<div class="search-box">
+
 <form method="POST">
-    <input type="text"
-           name="keyword"
-           placeholder="Enter Name"
-           required>
-    <input type="text"
-           name="register_number"
-           placeholder="Enter Register Number"
-           required>
-    <button type="submit">Search</button>
+
+<input
+type="text"
+name="keyword"
+placeholder="Enter Student Name"
+required>
+
+<input
+type="text"
+name="register_number"
+placeholder="Enter Register Number"
+required>
+
+<button type="submit">
+🔍 Search
+</button>
+
 </form>
-<br>
-{% if message != "" %}
-    <h3>{{ message }}</h3>
+
+</div>
+
+{% if message %}
+<div class="message">
+{{ message }}
+</div>
 {% endif %}
+
 {% if student %}
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Register Number</th>
-        <th>Department</th>
-        <th>Year</th>
-        <th>Email</th>
-        <th>Phone</th>
-    </tr>
-    {% for student in student %}
-    <tr>
-        <td>{{ student[0] }}</td>
-        <td>{{ student[1] }}</td>
-        <td>{{ student[2] }}</td>
-        <td>{{ student[3] }}</td>
-        <td>{{ student[4] }}</td>
-        <td>{{ student[5] }}</td>
-        <td>{{ student[7] }}</td>
-    </tr>
-    {% endfor %}
+
+<div class="table-box">
+
+<table>
+
+<tr>
+
+<th>ID</th>
+<th>Name</th>
+<th>Register No</th>
+<th>Department</th>
+<th>Year</th>
+<th>Email</th>
+<th>Phone</th>
+
+</tr>
+
+{% for student in student %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+<td>{{ student[1] }}</td>
+<td>{{ student[2] }}</td>
+<td>{{ student[3] }}</td>
+<td>{{ student[4] }}</td>
+<td>{{ student[5] }}</td>
+<td>{{ student[6] }}</td>
+
+</tr>
+
+{% endfor %}
+
 </table>
+
+</div>
+
 {% endif %}
-<br>
-<a href="/dashboard">Back to Dashboard</a>
+
+<a href="/view_students" class="back">
+⬅ Back to students
+</a>
+
+</div>
+
 </body>
+
 </html>

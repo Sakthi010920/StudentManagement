@@ -1,181 +1,544 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Manage Students Records</title>
-        <style>
+<head>
+<title>Manage Students Records</title>
+
+<style>
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family: Arial, sans-serif;
-}
-.header{
-    display:flex;
-    align-items:center;
-    width;100%;
-    margin-bottom:30px;
-}
-.header h1{
-    color:white;
-    font-size:40px;
-    margin:0;
-}
-.reset-btn{
-    margin-left:auto;
-    background:white;
-    color:red;
-    text-decoration:none;
-    padding:12px 25px;
-    border-radius:30px;
-    font-weight:bold;
-    transition:0.3s;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
-.reset-btn:hover{
-    background:#2196f3;
-    color:white;
-    transform:translateY(-2px);
-}
-.search-btn{
-    margin-left:auto;
-    background:white;
-    color:#2196f3;
-    text-decoration:none;
-    padding:12px 25px;
-    border-radius:30px;
-    font-weight:bold;
-    transition:0.3s;
-    box-shadow:0 4px 10px rgba(0,0,0,0.2);
-}
-.search-btn:hover{
-    background:#2196f3;
-    color:white;
-    transform:translateY(-2px);
+    font-family:"Poppins",sans-serif;
 }
 
 body{
-    background: linear-gradient(135deg,#4facfe,#00f2fe);
     min-height:100vh;
-    padding:40px;
+    padding:35px;
+    background:
+    radial-gradient(circle at top left,#2563eb,transparent 35%),
+    radial-gradient(circle at bottom right,#0891b2,transparent 35%),
+    linear-gradient(135deg,#020617,#0f172a);
+    color:white;
 }
 
-h1{
-    text-align:center;
-    color:white;
-    margin-bottom:25px;
-    font-size:40px;
+/* Scrollbar */
+
+::-webkit-scrollbar{
+    width:8px;
 }
-.search-link{
-    display:inline-block;
-    background:white;
-    color:#2196f3;
-    padding:10px 20px;
+
+::-webkit-scrollbar-thumb{
+    background:#3b82f6;
+    border-radius:20px;
+}
+
+/* Container */
+
+.container{
+    width:95%;
+    max-width:1500px;
+    margin:auto;
+}
+
+/* Header */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.header h1{
+    font-size:38px;
+    color:#38bdf8;
+}
+
+/* Top Buttons */
+
+.top-actions{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.btn{
     text-decoration:none;
-    border-radius:8px;
-    font-weight:bold;
-    margin-bottom:20px;
-}
-.search-link:hover{
-    background:#2196f3;
     color:white;
+    padding:12px 22px;
+    border-radius:12px;
+    font-weight:600;
+    transition:.3s;
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
+
+.btn:hover{
+    transform:translateY(-4px);
+}
+
+.search-btn{
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+}
+
+.reset-btn{
+    background:linear-gradient(135deg,#f59e0b,#d97706);
+}
+
+.delete-req{
+    background:linear-gradient(135deg,#ef4444,#b91c1c);
+}
+
+/* Back Button */
+
+.back{
+
+    display:inline-flex;
+
+    gap:10px;
+    margin-top:-10px;
+
+    margin-bottom:30px;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.back:hover{
+
+    color:#38bdf8;
+
+    transform:translateX(-6px);
+
+}
+
+/* Hour Select */
+
+label{
+    font-size:17px;
+    font-weight:bold;
+}
+
+select{
+    margin-left:10px;
+    padding:12px 18px;
+    border:none;
+    border-radius:10px;
+    background:#1e293b;
+    color:white;
+    font-size:15px;
+    outline:none;
+}
+
+/* Table */
+
 .table-container{
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.2);
-    overflow-x:auto;
+
+    margin-top:20px;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    box-shadow:0 20px 45px rgba(0,0,0,.4);
+
 }
 
 table{
     width:100%;
     border-collapse:collapse;
+    min-width:1400px;
 }
 
 th{
-    background:#2196f3;
+
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+
+    padding:18px;
+
     color:white;
-    padding:15px;
-    text-align:center;
-}
-td{
-    padding:12px;
-    text-align:center; 
+
+    font-size:16px;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:10;
+
 }
 
-tr:nth-child(odd){
-background:#2196f3;}
+td{
+
+    padding:16px;
+
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+tr{
+    transition:.3s;
+}
 
 tr:hover{
-    background:#e3f2fd;
+    background:rgba(255,255,255,.06);
 }
+
+/* Attendance Buttons */
+
+.attendance-actions{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.present-btn,
+.absent-btn{
+
+    border:none;
+
+    padding:9px;
+
+    border-radius:8px;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.3s;
+
+}
+
+.present-btn{
+    background:#16a34a;
+}
+
+.present-btn:hover{
+    background:#15803d;
+}
+
+.absent-btn{
+    background:#dc2626;
+}
+
+.absent-btn:hover{
+    background:#b91c1c;
+}
+
+/* View Button */
+
+.view-link{
+
+    display:inline-block;
+
+    text-decoration:none;
+
+    background:#2563eb;
+
+    color:white;
+
+    padding:9px 14px;
+
+    border-radius:8px;
+
+    transition:.3s;
+
+}
+
+.view-link:hover{
+
+    background:#1d4ed8;
+
+}
+
+/* Edit Button */
+
 .update-btn{
-    background:#28a745;
+
+    display:inline-block;
+
+    background:#10b981;
+
     color:white;
-    padding:8px 15px;
+
     text-decoration:none;
-    border-radius:5px;
+
+    padding:9px 16px;
+
+    border-radius:8px;
+
+    transition:.3s;
+
 }
+
 .update-btn:hover{
-    background:#218838;
+
+    background:#059669;
+
 }
+
+/* Delete Button */
+
 .delete-btn{
-    background:#dc3545;
+
+    display:inline-block;
+
+    background:#ef4444;
+
     color:white;
-    padding:8px 15px;
+
     text-decoration:none;
-    border-radius:5px;
+
+    padding:9px 16px;
+
+    border-radius:8px;
+
+    transition:.3s;
+
 }
+
 .delete-btn:hover{
-    background:#c82333;
+
+    background:#dc2626;
+
 }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-        <div class="header">
-    <h1>Student Records</h1><br> 
-    <a href="/search_student" class="search-btn">
-        🔍 Search Student
-    </a><br/><br/>
-    <a href="/reset" class="reset-btn">
-            Reset records</a>
-        </div>
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Registration Number</th>
-                <th>Department</th>
-                <th>Year</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Edit</th>
-                <th>Actions</th>
-            </tr>
-            {% for student in students %}
-            <tr>
-                <td>{{ loop.index }}</td>
-                <td>{{ student[1]}}</td>
-                <td>{{ student[2]}}</td>
-                <td>{{ student[3]}}</td>
-                <td>{{ student[4]}}</td>
-                <td>{{ student[5]}}</td>
-                <td>{{student[6]}}</td>
-                <td>
-                    <a href="/update_student/{{ student[0] }}" class="update-btn">Update</a>
-                </td>
-                <td>
-    <a href="{{ url_for('delete_student', id=student[0]) }}"
-       class="delete-btn"
-       onclick="return confirm('Are you sure you want to delete this record?')">
-       Delete
-    </a>
+
+/* Attendance Popup */
+
+#attendance-msg{
+
+    position:fixed;
+
+    top:25px;
+
+    right:25px;
+
+    background:#16a34a;
+
+    color:white;
+
+    padding:15px 25px;
+
+    border-radius:12px;
+
+    display:none;
+
+    font-weight:600;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.4);
+
+    z-index:999;
+
+}
+
+/* Responsive */
+
+@media(max-width:1000px){
+
+.header{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.top-actions{
+    width:100%;
+}
+
+table{
+    min-width:1200px;
+}
+
+}
+
+@media(max-width:700px){
+
+.header h1{
+    font-size:30px;
+}
+
+.btn{
+    width:100%;
+    text-align:center;
+}
+
+.back{
+    width:100%;
+    justify-content:center;
+}
+
+}
+</style>
+</head>
+
+<body>
+    <a href="/dashboard" class="back">
+⬅ Back to Dashboard
+</a>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+
+    <h1>👨‍🎓 Student Records</h1>
+
+
+    <div class="top-actions">
+        <a href="/search_student" class="btn search-btn">🔍 Search</a>
+        <a href="/reset" class="btn reset-btn">Reset</a>
+        <a href="/delete_requests" class="btn delete-req">🗑 Requests</a>
+    </div>
+
+</div>
+
+<!-- MESSAGE -->
+<div id="attendance-msg"></div>
+
+<!-- HOUR SELECT -->
+<div style="margin-bottom:15px;">
+    <label style="color:white;font-weight:bold;">Select Hour:</label>
+    <select id="hour">
+        <option disabled selected>Choose</option>
+        <option value="1">Hour 1</option>
+        <option value="2">Hour 2</option>
+        <option value="3">Hour 3</option>
+        <option value="4">Hour 4</option>
+        <option value="5">Hour 5</option>
+        <option value="6">Hour 6</option>
+        <option value="7">Hour 7</option>
+        <option value="8">Hour 8</option>
+    </select>
+</div>
+
+<!-- TABLE -->
+<div class="table-container">
+
+<table>
+
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Reg No</th>
+    <th>Dept</th>
+    <th>Year</th>
+    <th>College</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Attendance</th>
+    <th>Summary</th>
+    <th>Edit</th>
+    <th>Delete</th>
+</tr>
+
+{% for student in students %}
+
+<tr id="student-{{ student[0] }}">
+
+<td>{{ loop.index }}</td>
+<td>{{ student[1] }}</td>
+<td>{{ student[2] }}</td>
+<td>{{ student[3] }}</td>
+<td>{{ student[4] }}</td>
+<td>{{ student[5] }}</td>
+<td>{{ student[6] }}</td>
+<td>{{ student[7] }}</td>
+
+<td>
+<div class="attendance-actions">
+
+<button class="present-btn"
+onclick="markAttendance({{ student[0] }}, 'Present')">
+✔ Present
+</button>
+
+<button class="absent-btn"
+onclick="markAttendance({{ student[0] }}, 'Absent')">
+❌ Absent
+</button>
+
+<a href="/view_attendance/{{ student[0] }}" class="view-link">
+📊 View
+</a>
+
+</div>
 </td>
-            </tr>
-            {% endfor %}
-        </table>
-        </div>
-        
-    </body>
+
+<td>
+<a href="/attendance_summary/{{ student[0] }}" class="view-link">
+📊 Summary
+</a>
+</td>
+
+<td>
+<a href="/update_student/{{ student[0] }}" class="update-btn">Edit</a>
+</td>
+
+<td>
+<a href="/delete_student/{{ student[0] }}"
+class="delete-btn"
+onclick="return confirm('Delete this student?')">
+Delete
+</a>
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+function markAttendance(studentId, status){
+
+    let hour = document.getElementById("hour").value;
+
+    fetch("/mark_attendance/" + studentId + "/" + status + "?hour=" + hour)
+
+    .then(res => res.json())
+    .then(data => {
+
+        let msg = document.getElementById("attendance-msg");
+        msg.innerHTML = data.message;
+        msg.style.display = "block";
+
+        setTimeout(() => msg.style.display = "none", 2000);
+
+        let row = document.getElementById("student-" + studentId);
+
+        if(status=="Present"){
+            row.style.background = "#d4edda";
+        }else{
+            row.style.background = "#f8d7da";
+        }
+
+    });
+
+}
+
+</script>
+
+</body>
 </html>

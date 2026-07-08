@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage Assignments</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* ===========================
+   PREMIUM DARK BLUE BACKGROUND
+=========================== */
+
+body{
+
+    min-height:100vh;
+    padding:40px;
+
+    background:
+    radial-gradient(circle at top left,#2563eb,transparent 30%),
+    radial-gradient(circle at bottom right,#0891b2,transparent 30%),
+    linear-gradient(135deg,#020617,#0f172a,#1e293b);
+
+}
+
+/* ===========================
+        CONTAINER
+=========================== */
+
+.container{
+
+    width:95%;
+    max-width:1300px;
+    margin:auto;
+
+    background:rgba(255,255,255,.08);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    border-radius:25px;
+
+    padding:35px;
+
+    box-shadow:0 20px 45px rgba(0,0,0,.45);
+
+}
+
+/* ===========================
+        HEADER
+=========================== */
+
+.header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+
+    margin-bottom:35px;
+
+}
+
+.header h1{
+
+    color:#38bdf8;
+    font-size:36px;
+
+}
+
+/* ===========================
+        BUTTONS
+=========================== */
+
+.btn{
+
+    text-decoration:none;
+
+    color:white;
+    background:#1e40af;
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    transition:.35s;
+
+    display:inline-block;
+
+}
+
+.add{
+
+    background:linear-gradient(135deg,#2563eb,#0284c7);
+
+}
+
+.back{
+
+    background:#374151;
+
+}
+
+.btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.3);
+
+}
+
+/* ===========================
+        TABLE
+=========================== */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    color:white;
+
+}
+
+th{
+
+    background:#1d4ed8;
+
+    padding:16px;
+
+    font-size:17px;
+
+}
+
+td{
+
+    padding:15px;
+
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,.1);
+
+}
+
+tr:nth-child(even){
+
+    background:rgba(255,255,255,.03);
+
+}
+
+tr:hover{
+
+    background:rgba(59,130,246,.18);
+
+}
+
+/* ===========================
+        DOWNLOAD
+=========================== */
+
+.download{
+
+    background:#10b981;
+    padding:8px 15px;
+    border-radius:8px;
+    color:white;
+    text-decoration:none;
+
+}
+
+.download:hover{
+
+    background:#059669;
+
+}
+
+/* ===========================
+        DELETE
+=========================== */
+
+.delete{
+
+    background:#ef4444;
+    padding:8px 15px;
+    border-radius:8px;
+    color:white;
+    text-decoration:none;
+
+}
+
+.delete:hover{
+
+    background:#dc2626;
+
+}
+
+/* ===========================
+        EMPTY MESSAGE
+=========================== */
+
+.empty{
+
+    text-align:center;
+    color:#cbd5e1;
+    font-size:20px;
+    padding:50px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+
+<h1>📚 Manage Assignments</h1>
+
+<div>
+
+<a href="/create_assignment" class="btn add">
+➕ Create Assignment
+</a>
+
+<a href="/assignment_submissions" class="btn">
+    📥 View Submissions
+</a>
+
+<a href="/dashboard" class="btn back">
+🏠 Dashboard
+</a>
+
+</div>
+
+</div>
+
+{% if assignments %}
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+
+<th>ID</th>
+
+<th>Title</th>
+
+<th>Subject</th>
+
+<th>Due Date</th>
+
+<th>File</th>
+
+<th>Action</th>
+
+</tr>
+
+{% for assignment in assignments %}
+
+<tr>
+
+<td>{{ loop.index }}</td>
+
+<td>{{ assignment[1] }}</td>
+
+<td>{{ assignment[2] }}</td>
+
+<td>{{ assignment[3] }}</td>
+
+<td>
+
+{% if assignment[4] %}
+
+<a href="/uploads/assignments/{{ assignment[4] }}"
+class="download"
+target="_blank">
+
+📄 Download
+
+</a>
+
+
+{% else %}
+
+No File
+
+{% endif %}
+
+</td>
+
+<td>
+
+<a href="/delete_assignment/{{ assignment[0] }}"
+class="delete"
+onclick="return confirm('Delete this assignment?')">
+
+🗑 Delete
+
+</a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% else %}
+
+<div class="empty">
+
+📂 No assignments available.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+
+</html>
