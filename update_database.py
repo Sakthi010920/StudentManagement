@@ -3,14 +3,22 @@ import sqlite3
 conn = sqlite3.connect("database.db")
 cursor = conn.cursor()
 
-print("ACADEMIC_MARKS")
-cursor.execute("PRAGMA table_info(academic_marks)")
-for row in cursor.fetchall():
-    print(row)
+admin_id = 8
 
-print("\nSEMESTER_RESULT")
-cursor.execute("PRAGMA table_info(semester_result)")
-for row in cursor.fetchall():
-    print(row)
+queries = [
+    ("student.user_id", "SELECT * FROM student WHERE user_id=?"),
+    ("student.admin_id", "SELECT * FROM student WHERE admin_id=?"),
+    ("attendance.user_id", "SELECT * FROM attendance WHERE user_id=?"),
+    ("academic_marks.user_id", "SELECT * FROM academic_marks WHERE user_id=?"),
+    ("semester_result.user_id", "SELECT * FROM semester_result WHERE user_id=?"),
+    ("assignments.user_id", "SELECT * FROM assignments WHERE user_id=?")
+]
+
+for name, query in queries:
+    cursor.execute(query, (admin_id,))
+    rows = cursor.fetchall()
+    print(f"\n{name}: {len(rows)} rows")
+    for row in rows:
+        print(row)
 
 conn.close()

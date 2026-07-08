@@ -1445,7 +1445,6 @@ def add_academic():
     if session.get("role") != "admin":
         return redirect(url_for("student_dashboard"))
 
-    # Get selected semester and exam type from session
     semester = session.get("semester")
     exam_type = session.get("exam_type")
 
@@ -1456,7 +1455,6 @@ def add_academic():
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
-    # Get students
     cursor.execute("""
         SELECT id, name, reg_number
         FROM student
@@ -1483,10 +1481,8 @@ def add_academic():
                 continue
 
             mark = int(mark)
-
             marks_list.append(mark)
 
-            # Pass / Fail
             if mark >= 40:
                 result = "Pass"
             else:
@@ -1517,7 +1513,6 @@ def add_academic():
                 session["organization_id"]
             ))
 
-        # SGPA Calculation
         def calculate_sgpa(marks_list):
 
             total_points = 0
@@ -1548,77 +1543,74 @@ def add_academic():
 
             return round(total_points / count, 2)
 
-        sgpa = 0
+        sgpa = None
 
         if exam_type.lower() == "semester":
+
             sgpa = calculate_sgpa(marks_list)
 
-        # Check existing SGPA
-        cursor.execute("""
-            SELECT id
-            FROM semester_result
-            WHERE student_id=?
-            AND semester=?
-            AND exam_type=?
-        """,
-        (
-            student_id,
-            semester,
-            exam_type
-        ))
-
-        existing = cursor.fetchone()
-
-        if existing:
-
             cursor.execute("""
-                UPDATE semester_result
-                SET
-                    sgpa=?,
-                    user_id=?,
-                    organization_id=?
+                SELECT id
+                FROM semester_result
                 WHERE student_id=?
                 AND semester=?
                 AND exam_type=?
-            """,
-            (
-                sgpa,
-                session["user_id"],
-                session["organization_id"],
+            """, (
                 student_id,
                 semester,
                 exam_type
             ))
 
-        else:
+            existing = cursor.fetchone()
 
-            cursor.execute("""
-                INSERT INTO semester_result
-                (
+            if existing:
+
+                cursor.execute("""
+                    UPDATE semester_result
+                    SET
+                        sgpa=?,
+                        user_id=?,
+                        organization_id=?
+                    WHERE student_id=?
+                    AND semester=?
+                    AND exam_type=?
+                """, (
+                    sgpa,
+                    session["user_id"],
+                    session["organization_id"],
+                    student_id,
+                    semester,
+                    exam_type
+                ))
+
+            else:
+
+                cursor.execute("""
+                    INSERT INTO semester_result
+                    (
+                        student_id,
+                        semester,
+                        exam_type,
+                        sgpa,
+                        user_id,
+                        organization_id
+                    )
+                    VALUES (?, ?, ?, ?, ?, ?)
+                """, (
                     student_id,
                     semester,
                     exam_type,
                     sgpa,
-                    user_id,
-                    organization_id
-                )
-                VALUES (?, ?, ?, ?, ?, ?)
-            """,
-            (
-                student_id,
-                semester,
-                exam_type,
-                sgpa,
-                session["user_id"],
-                session["organization_id"]
-            ))
+                    session["user_id"],
+                    session["organization_id"]
+                ))
 
         conn.commit()
 
-        flash(
-            f"✅ Marks saved successfully! SGPA = {sgpa}",
-            "success"
-        )
+        if exam_type.lower() == "semester":
+            flash(f"✅ Marks saved successfully! SGPA = {sgpa}", "success")
+        else:
+            flash("✅ Internal marks saved successfully!", "success")
 
         conn.close()
 
@@ -1632,6 +1624,7 @@ def add_academic():
         semester=semester,
         exam_type=exam_type
     )
+
 @app.route('/view_academics/<int:student_id>', methods=['GET', 'POST'])
 def view_academics(student_id):
 
@@ -1715,14 +1708,12 @@ def upload_certificate():
     if 'user_id' not in session:
         return redirect(url_for('login'))
 
-    # Only students can upload certificates
     if session.get("role") != "student":
         return redirect(url_for("dashboard"))
 
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
-    # Get the logged-in student's ID
     cursor.execute("""
         SELECT id
         FROM student
@@ -1747,11 +1738,9 @@ def upload_certificate():
         file = request.files["certificate"]
 
         upload_folder = "uploads/certificates"
-
         os.makedirs(upload_folder, exist_ok=True)
 
         filename = secure_filename(file.filename)
-
         filepath = os.path.join(upload_folder, filename)
 
         file.save(filepath)
@@ -1759,7 +1748,7 @@ def upload_certificate():
         cursor.execute("""
             INSERT INTO certificates
             (
-                
+                student_id,
                 certificate_name,
                 issuer,
                 certificate_id,
@@ -1768,9 +1757,9 @@ def upload_certificate():
                 user_id,
                 organization_id
             )
-            VALUES ( ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            student_id,
             certificate_name,
             issuer,
             certificate_id,
@@ -1791,7 +1780,6 @@ def upload_certificate():
     conn.close()
 
     return render_template("upload_certificate.html")
-
 @app.route('/view_certificates')
 def view_certificates():
 
@@ -1902,7 +1890,6 @@ def delete_student(id):
     conn.execute("PRAGMA foreign_keys = ON")
     cursor = conn.cursor()
 
-    # Get student details first
     cursor.execute("""
         SELECT name
         FROM student
@@ -1913,21 +1900,31 @@ def delete_student(id):
 
     if student:
 
-        student_name = student[0]
-
-        # Delete attendance
         cursor.execute("""
             DELETE FROM attendance
             WHERE student_id=?
         """, (id,))
 
-        # Delete marks
         cursor.execute("""
             DELETE FROM academic_marks
             WHERE student_id=?
         """, (id,))
 
-        # Delete student
+        cursor.execute("""
+            DELETE FROM semester_result
+            WHERE student_id=?
+        """, (id,))
+
+        cursor.execute("""
+            DELETE FROM certificates
+            WHERE student_id=?
+        """, (id,))
+
+        cursor.execute("""
+            DELETE FROM assignment_submission
+            WHERE student_id=?
+        """, (id,))
+
         cursor.execute("""
             DELETE FROM student
             WHERE id=?
@@ -2189,6 +2186,10 @@ def delete_account():
         WHERE admin_id = ?
     """, (session['user_id'],))
         
+    cursor.execute("""
+    DELETE FROM assignments
+    WHERE user_id = ?
+""", (session["user_id"],))
 
     # Delete admin account
     cursor.execute("""
@@ -2218,20 +2219,17 @@ def reset():
     cursor = conn.cursor()
 
     # Get all students first
-    cursor.execute("""
-        SELECT id, name
-        FROM student
-    """)
+    cursor.execute("SELECT id FROM student")
     students = cursor.fetchall()
 
     # Delete attendance and marks
-    for student_id, student_name in students:
-        cursor.execute("DELETE FROM attendance WHERE student_id=? AND student_name=?", (student_id, student_name))
-        cursor.execute("DELETE FROM academic_marks WHERE student_id=? AND student_name=?", (student_id, student_name))
-        cursor.execute("DELETE FROM semester_result WHERE student_id=? AND student_name=?", (student_id, student_name))
-        cursor.execute("DELETE FROM assignment_submission WHERE student_id=? AND student_name=?", (student_id, student_name))
-        cursor.execute("DELETE FROM certificates WHERE student_id=? AND student_name=?", (student_id, student_name))
-        cursor.execute("DELETE FROM student WHERE id=? AND name=?", (student_id, student_name))
+    for (student_id,) in students:
+        cursor.execute("DELETE FROM attendance WHERE student_id=? ", (student_id,))
+        cursor.execute("DELETE FROM academic_marks WHERE student_id=? ", (student_id,))
+        cursor.execute("DELETE FROM semester_result WHERE student_id=? ", (student_id,))
+        cursor.execute("DELETE FROM assignment_submission WHERE student_id=? ", (student_id,))
+        cursor.execute("DELETE FROM certificates WHERE student_id=? ", (student_id,))
+        cursor.execute("DELETE FROM student WHERE id=?", (student_id,))
 
     conn.commit()
     conn.close()
